@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "iw scan",
+  "description": "Output of 'iw dev <name> scan dump' — one object per cached BSS",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "bssid":                  { "type": "string", "description": "BSS MAC address" },
+      "dev":                    { "type": "string" },
+      "status":                 { "type": "string", "enum": ["associated", "authenticated", "joined"] },
+      "associated":             { "type": "boolean" },
+      "frequency":              { "type": "integer", "description": "MHz" },
+      "freq_offset":            { "type": "integer", "description": "kHz" },
+      "tsf":                    { "type": "integer", "description": "usec" },
+      "last_seen_boottime_ns":  { "type": "integer", "description": "ns" },
+      "beacon_interval":        { "type": "integer", "description": "TUs" },
+      "capability":             { "type": "string", "description": "raw capability field, hex" },
+      "signal_dbm":             { "type": "number" },
+      "signal_unspec":          { "type": "integer", "description": "0..100" },
+      "last_seen_ms":           { "type": "integer", "description": "ms ago" },
+      "ssid":                   { "type": "string" },
+      "ds_channel":             { "type": "integer" },
+      "supported_rates":        { "type": "array", "items": { "type": "number" }, "description": "Mbps" }
+    },
+    "required": ["bssid"]
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "iw phy",
+  "description": "Output of 'iw phy' / 'iw list' — wireless hardware (wiphy) capabilities. Because the kernel uses split dumps, a single phy may appear as multiple objects in the array (each carrying its wiphy index); consumers should group by 'wiphy'.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "wiphy":      { "type": "integer", "description": "phy index" },
+      "wiphy_name": { "type": "string" },
+      "bands": {
+        "type": "array",
+        "items": { "$ref": "#/$defs/band" }
+      },
+      "max_scan_ssids":          { "type": "integer" },
+      "max_scan_ie_len":         { "type": "integer", "description": "bytes" },
+      "max_sched_scan_ssids":    { "type": "integer" },
+      "max_match_sets":          { "type": "integer" },
+      "max_sched_scan_plans":    { "type": "integer" },
+      "max_scan_plan_interval":  { "type": "integer" },
+      "max_scan_plan_iterations":{ "type": "integer" },
+      "frag_threshold":          { "type": "integer", "description": "absent when off (-1)" },
+      "rts_threshold":           { "type": "integer", "description": "absent when off (-1)" },
+      "retry_short":             { "type": "integer" },
+      "retry_long":              { "type": "integer" },
+      "coverage_class":          { "type": "integer" },
+      "ciphers":                 { "type": "array", "items": { "type": "string" } },
+      "antenna_avail_tx":        { "type": "integer", "description": "chain bitmask" },
+      "antenna_avail_rx":        { "type": "integer", "description": "chain bitmask" },
+      "antenna_tx":              { "type": "integer", "description": "chain bitmask" },
+      "antenna_rx":              { "type": "integer", "description": "chain bitmask" },
+      "supported_iftypes":       { "type": "array", "items": { "type": "string" } },
+      "software_iftypes":        { "type": "array", "items": { "type": "string" } },
+      "supported_commands":      { "type": "array", "items": { "type": "string" } },
+      "support_ibss_rsn":        { "type": "boolean" }
+    },
+    "required": ["wiphy"]
+  },
+  "$defs": {
+    "band": {
+      "type": "object",
+      "properties": {
+        "band":             { "type": "integer", "description": "1-based band number" },
+        "ht_capa":          { "type": "string", "description": "raw HT capability bitfield, hex" },
+        "ht_ampdu_factor":  { "type": "integer" },
+        "ht_ampdu_density": { "type": "integer" },
+        "vht_capa":         { "type": "string", "description": "raw VHT capability bitfield, hex" },
+        "frequencies":      { "type": "array", "items": { "$ref": "#/$defs/frequency" } },
+        "bitrates":         { "type": "array", "items": { "$ref": "#/$defs/bitrate" } }
+      },
+      "required": ["band"]
+    },
+    "frequency": {
+      "type": "object",
+      "properties": {
+        "freq":             { "type": "integer", "description": "MHz" },
+        "freq_offset":      { "type": "integer", "description": "kHz offset" },
+        "channel":          { "type": "integer" },
+        "max_tx_power_dbm":  { "type": "number" },
+        "disabled":         { "type": "boolean" },
+        "no_ir":            { "type": "boolean" },
+        "radar":            { "type": "boolean" },
+        "passive_scan":     { "type": "boolean" },
+        "no_ibss":          { "type": "boolean" }
+      },
+      "required": ["freq"]
+    },
+    "bitrate": {
+      "type": "object",
+      "properties": {
+        "bitrate_mbps":   { "type": "number" },
+        "short_preamble": { "type": "boolean" }
+      },
+      "required": ["bitrate_mbps"]
+    }
+  }
+}

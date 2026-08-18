@@ -1,0 +1,12 @@
+iw
+libiw.so
+*~
+*.o
+*.lo
+.config
+version.c
+iw.8.gz
+*-stamp
+/tests/test_json
+/nl80211-commands.inc
+.claude/worktrees/

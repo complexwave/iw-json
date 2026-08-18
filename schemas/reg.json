@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "iw reg",
+  "description": "Output of 'iw reg get' — regulatory domain(s). One object per domain (global and/or per-phy for self-managed devices).",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "scope":        { "type": "string", "enum": ["global", "phy"] },
+      "wiphy":        { "type": "integer", "description": "phy index (scope=phy only)" },
+      "self_managed": { "type": "boolean" },
+      "country":      { "type": "string", "description": "ISO/IEC 3166-1 alpha2, or '00' for world" },
+      "dfs_region":   { "type": "string", "description": "DFS-UNSET, DFS-FCC, DFS-ETSI, DFS-JP, ..." },
+      "rules": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "start_mhz":        { "type": "integer" },
+            "end_mhz":          { "type": "integer" },
+            "max_bw_mhz":       { "type": "integer" },
+            "max_ant_gain_dbi": { "type": "integer", "description": "absent when not specified" },
+            "max_eirp_dbm":     { "type": "integer" },
+            "dfs_cac_ms":       { "type": "integer", "description": "DFS channel availability check time" },
+            "flags": {
+              "type": "array",
+              "items": { "type": "string" },
+              "description": "regulatory flags (DFS, NO-OUTDOOR, NO-IR, PASSIVE-SCAN, ...)"
+            }
+          },
+          "required": ["start_mhz", "end_mhz", "max_bw_mhz", "max_eirp_dbm", "flags"]
+        }
+      }
+    },
+    "required": ["scope", "country", "rules"]
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "iw mpath",
+  "description": "Output of 'iw dev <name> mpath dump' — known mesh paths",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "dst":               { "type": "string", "description": "destination MAC address" },
+      "next_hop":          { "type": "string", "description": "next hop MAC address" },
+      "dev":               { "type": "string" },
+      "sn":                { "type": "integer", "description": "sequence number" },
+      "metric":            { "type": "integer" },
+      "frame_qlen":        { "type": "integer" },
+      "exptime":           { "type": "integer", "description": "expiration time (ms)" },
+      "discovery_timeout": { "type": "integer", "description": "ms" },
+      "discovery_retries": { "type": "integer" },
+      "flags":             { "type": "integer", "description": "mesh path flags bitmask" },
+      "hop_count":         { "type": "integer" },
+      "path_change":       { "type": "integer" }
+    },
+    "required": ["dst", "next_hop", "dev"]
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "iw mpp",
+  "description": "Output of 'iw dev <name> mpp dump' — known mesh proxy paths",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "dst":      { "type": "string", "description": "destination MAC address" },
+      "next_hop": { "type": "string", "description": "proxy node MAC address" },
+      "dev":      { "type": "string" }
+    },
+    "required": ["dst", "next_hop", "dev"]
+  }
+}

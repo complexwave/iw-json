@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "iw mesh_param",
+  "description": "Output of 'iw dev <name> mesh_param dump' — a single object of mesh configuration parameters. Time-valued fields carry the units implied by their name (timeouts in ms unless the name says TUs/seconds). All fields optional; presence depends on driver.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "mesh_retry_timeout":                    { "type": "integer", "description": "ms" },
+      "mesh_confirm_timeout":                  { "type": "integer", "description": "ms" },
+      "mesh_holding_timeout":                  { "type": "integer", "description": "ms" },
+      "mesh_max_peer_links":                   { "type": "integer" },
+      "mesh_max_retries":                      { "type": "integer" },
+      "mesh_ttl":                              { "type": "integer" },
+      "mesh_element_ttl":                      { "type": "integer" },
+      "mesh_auto_open_plinks":                 { "type": "integer" },
+      "mesh_hwmp_max_preq_retries":            { "type": "integer" },
+      "mesh_path_refresh_time":                { "type": "integer", "description": "ms" },
+      "mesh_min_discovery_timeout":            { "type": "integer", "description": "ms" },
+      "mesh_hwmp_active_path_timeout":         { "type": "integer", "description": "TUs" },
+      "mesh_hwmp_preq_min_interval":           { "type": "integer", "description": "TUs" },
+      "mesh_hwmp_net_diameter_traversal_time": { "type": "integer", "description": "TUs" },
+      "mesh_hwmp_rootmode":                    { "type": "integer" },
+      "mesh_hwmp_rann_interval":               { "type": "integer", "description": "TUs" },
+      "mesh_gate_announcements":               { "type": "integer" },
+      "mesh_fwding":                           { "type": "integer" },
+      "mesh_sync_offset_max_neighor":          { "type": "integer" },
+      "mesh_rssi_threshold":                   { "type": "integer", "description": "dBm" },
+      "mesh_hwmp_active_path_to_root_timeout": { "type": "integer", "description": "TUs" },
+      "mesh_hwmp_root_interval":               { "type": "integer", "description": "TUs" },
+      "mesh_hwmp_confirmation_interval":       { "type": "integer", "description": "TUs" },
+      "mesh_power_mode":                       { "type": "string", "enum": ["active", "light", "deep", "undefined"] },
+      "mesh_awake_window":                     { "type": "integer", "description": "TUs" },
+      "mesh_plink_timeout":                    { "type": "integer", "description": "seconds" },
+      "mesh_connected_to_gate":                { "type": "integer" },
+      "mesh_nolearn":                          { "type": "integer" },
+      "mesh_connected_to_as":                  { "type": "integer" }
+    }
+  }
+}

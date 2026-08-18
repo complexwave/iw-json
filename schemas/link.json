@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "iw link",
+  "description": "Output of 'iw dev <name> link'. The top-level array (uniform across all iw commands) holds exactly one wrapper object for the queried interface.",
+  "type": "array",
+  "items": { "$ref": "#/$defs/link" },
+  "$defs": {
+    "link": {
+      "type": "object",
+      "description": "the interface's current connection, if any",
+      "properties": {
+        "dev":       { "type": "string" },
+        "connected": { "type": "boolean", "description": "true when associated (stats present)" },
+        "mld":       { "type": "boolean" },
+        "mld_addr":  { "type": "string", "pattern": "^([0-9a-f]{2}:){5}[0-9a-f]{2}$" },
+        "links":     { "type": "array", "items": { "$ref": "#/$defs/link_bss" } },
+        "stats":     { "$ref": "#/$defs/sta_stats" }
+      },
+      "required": ["dev", "connected", "mld", "links"]
+    },
+    "link_bss": {
+      "type": "object",
+      "description": "one BSS / MLO link of the current connection",
+      "properties": {
+        "bssid":            { "type": "string", "pattern": "^([0-9a-f]{2}:){5}[0-9a-f]{2}$" },
+        "status":           { "type": "string", "enum": ["associated", "authenticated", "ibss_joined"] },
+        "link_id":          { "type": "integer", "description": "MLO link id; present only for an MLD" },
+        "frequency":        { "type": "integer", "description": "MHz" },
+        "frequency_offset": { "type": "integer", "description": "kHz" },
+        "ssid":             { "type": "string" },
+        "ds_channel":       { "type": "integer" },
+        "supported_rates":  { "type": "array", "items": { "type": "number" } }
+      },
+      "required": ["bssid", "status"]
+    },
+    "bitrate": {
+      "type": "object",
+      "properties": {
+        "bitrate_mbps": { "type": "number" },
+        "mcs":          { "type": "integer" },
+        "vht_mcs":      { "type": "integer" },
+        "s1g_mcs":      { "type": "integer" },
+        "he_mcs":       { "type": "integer" },
+        "eht_mcs":      { "type": "integer" },
+        "width_mhz":    { "type": "integer" },
+        "width_80p80":  { "type": "boolean" },
+        "short_gi":     { "type": "boolean" },
+        "nss":          { "type": "integer" },
+        "he_gi":        { "type": "integer" },
+        "he_dcm":       { "type": "integer" },
+        "he_ru_alloc":  { "type": "integer" },
+        "eht_gi":       { "type": "integer" },
+        "eht_ru_alloc": { "type": "integer" }
+      }
+    },
+    "bss_param": {
+      "type": "object",
+      "properties": {
+        "dtim_period":     { "type": "integer" },
+        "beacon_interval": { "type": "integer" },
+        "cts_prot":        { "type": "boolean" },
+        "short_preamble":  { "type": "boolean" },
+        "short_slot_time": { "type": "boolean" }
+      }
+    },
+    "sta_stats": {
+      "type": "object",
+      "description": "station statistics for the connection (same shape as 'iw station')",
+      "properties": {
+        "inactive_time":         { "type": "integer" },
+        "rx_bytes":              { "type": "integer" },
+        "rx_packets":            { "type": "integer" },
+        "tx_bytes":              { "type": "integer" },
+        "tx_packets":            { "type": "integer" },
+        "tx_retries":            { "type": "integer" },
+        "tx_failed":             { "type": "integer" },
+        "beacon_loss":           { "type": "integer" },
+        "beacon_rx":             { "type": "integer" },
+        "rx_drop_misc":          { "type": "integer" },
+        "signal_dbm":            { "type": "integer" },
+        "signal_chains":         { "type": "array", "items": { "type": "integer" } },
+        "signal_avg_dbm":        { "type": "integer" },
+        "signal_avg_chains":     { "type": "array", "items": { "type": "integer" } },
+        "beacon_signal_avg_dbm": { "type": "integer" },
+        "t_offset_us":           { "type": "integer" },
+        "tx_bitrate":            { "$ref": "#/$defs/bitrate" },
+        "tx_duration_us":        { "type": "integer" },
+        "rx_bitrate":            { "$ref": "#/$defs/bitrate" },
+        "rx_duration_us":        { "type": "integer" },
+        "ack_signal_dbm":        { "type": "integer" },
+        "ack_signal_avg_dbm":    { "type": "integer" },
+        "airtime_weight":        { "type": "integer" },
+        "expected_throughput_mbps": { "type": "number" },
+        "bss_param":             { "$ref": "#/$defs/bss_param" },
+        "connected_time":        { "type": "integer" },
+        "assoc_at_ms":           { "type": "integer" }
+      }
+    }
+  }
+}

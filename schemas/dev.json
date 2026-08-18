@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "iw dev",
+  "description": "Output of 'iw dev' and 'iw dev <name> info' — lists wireless interfaces",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "wiphy":        { "type": "integer", "description": "phy index" },
+      "ifname":       { "type": "string",  "description": "interface name (absent for non-netdev)" },
+      "ifindex":      { "type": "integer", "description": "network interface index" },
+      "wdev":         { "type": "integer", "description": "wireless device identifier" },
+      "addr":         { "type": "string",  "pattern": "^([0-9a-f]{2}:){5}[0-9a-f]{2}$" },
+      "ssid":         { "type": "string" },
+      "type":         { "type": "string",  "description": "interface type (managed, monitor, AP, P2P-device, ...)" },
+      "channel":      { "type": "integer" },
+      "frequency":    { "type": "integer", "description": "MHz" },
+      "channel_width": { "type": "string" },
+      "center_freq1": { "type": "integer", "description": "MHz" },
+      "center_freq2": { "type": "integer", "description": "MHz" },
+      "channel_type": { "type": "string" },
+      "punctured":    { "type": "string",  "description": "hex bitmap" },
+      "txpower_dbm":  { "type": "number" },
+      "4addr":        { "type": "boolean" },
+      "txq_stats": {
+        "type": "object",
+        "properties": {
+          "backlog_bytes":   { "type": "integer" },
+          "backlog_packets": { "type": "integer" },
+          "flows":           { "type": "integer" },
+          "drops":           { "type": "integer" },
+          "ecn_marks":       { "type": "integer" },
+          "overlimit":       { "type": "integer" },
+          "collisions":      { "type": "integer" },
+          "tx_bytes":        { "type": "integer" },
+          "tx_packets":      { "type": "integer" }
+        }
+      },
+      "mlo_links": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "link_id":      { "type": "integer" },
+            "addr":         { "type": "string" },
+            "channel":      { "type": "integer" },
+            "frequency":    { "type": "integer" },
+            "channel_width": { "type": "string" },
+            "center_freq1": { "type": "integer" },
+            "center_freq2": { "type": "integer" },
+            "txpower_dbm":  { "type": "number" }
+          }
+        }
+      }
+    },
+    "required": ["wiphy"]
+  }
+}

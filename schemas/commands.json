@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "iw commands",
+  "description": "Output of 'iw commands' — known nl80211 commands and their values",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id":   { "type": "integer" },
+      "name": { "type": "string" }
+    },
+    "required": ["id", "name"]
+  }
+}

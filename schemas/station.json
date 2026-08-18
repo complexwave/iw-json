@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "iw station",
+  "description": "Output of 'iw dev <name> station dump' and 'iw dev <name> station get <MAC>' — per-station statistics",
+  "type": "array",
+  "items": { "$ref": "#/$defs/station" },
+  "$defs": {
+    "bitrate": {
+      "type": "object",
+      "description": "negotiated rate; only the fields applicable to the PHY mode are present",
+      "properties": {
+        "bitrate_mbps": { "type": "number" },
+        "mcs":          { "type": "integer" },
+        "vht_mcs":      { "type": "integer" },
+        "s1g_mcs":      { "type": "integer" },
+        "he_mcs":       { "type": "integer" },
+        "eht_mcs":      { "type": "integer" },
+        "width_mhz":    { "type": "integer", "description": "channel width; absent implies 20 MHz" },
+        "width_80p80":  { "type": "boolean" },
+        "short_gi":     { "type": "boolean" },
+        "nss":          { "type": "integer", "description": "spatial streams (VHT/S1G/HE/EHT)" },
+        "he_gi":        { "type": "integer" },
+        "he_dcm":       { "type": "integer" },
+        "he_ru_alloc":  { "type": "integer" },
+        "eht_gi":       { "type": "integer" },
+        "eht_ru_alloc": { "type": "integer" }
+      }
+    },
+    "txq_stats": {
+      "type": "object",
+      "properties": {
+        "backlog_bytes":   { "type": "integer" },
+        "backlog_packets": { "type": "integer" },
+        "flows":           { "type": "integer" },
+        "drops":           { "type": "integer" },
+        "ecn_marks":       { "type": "integer" },
+        "overlimit":       { "type": "integer" },
+        "collisions":      { "type": "integer" },
+        "tx_bytes":        { "type": "integer" },
+        "tx_packets":      { "type": "integer" }
+      }
+    },
+    "tid_stat": {
+      "type": "object",
+      "properties": {
+        "tid":             { "type": "integer" },
+        "rx_msdu":         { "type": "integer" },
+        "tx_msdu":         { "type": "integer" },
+        "tx_msdu_retries": { "type": "integer" },
+        "tx_msdu_failed":  { "type": "integer" },
+        "txq_stats":       { "$ref": "#/$defs/txq_stats" }
+      },
+      "required": ["tid"]
+    },
+    "bss_param": {
+      "type": "object",
+      "properties": {
+        "dtim_period":     { "type": "integer" },
+        "beacon_interval": { "type": "integer" },
+        "cts_prot":        { "type": "boolean" },
+        "short_preamble":  { "type": "boolean" },
+        "short_slot_time": { "type": "boolean" }
+      }
+    },
+    "sta_stats": {
+      "description": "statistics common to a non-MLO station or to one MLO link",
+      "type": "object",
+      "properties": {
+        "inactive_time":         { "type": "integer", "description": "ms" },
+        "rx_bytes":              { "type": "integer" },
+        "rx_packets":            { "type": "integer" },
+        "tx_bytes":              { "type": "integer" },
+        "tx_packets":            { "type": "integer" },
+        "tx_retries":            { "type": "integer" },
+        "tx_failed":             { "type": "integer" },
+        "beacon_loss":           { "type": "integer" },
+        "beacon_rx":             { "type": "integer" },
+        "rx_drop_misc":          { "type": "integer" },
+        "signal_dbm":            { "type": "integer" },
+        "signal_chains":         { "type": "array", "items": { "type": "integer" } },
+        "signal_avg_dbm":        { "type": "integer" },
+        "signal_avg_chains":     { "type": "array", "items": { "type": "integer" } },
+        "beacon_signal_avg_dbm": { "type": "integer" },
+        "t_offset_us":           { "type": "integer" },
+        "tx_bitrate":            { "$ref": "#/$defs/bitrate" },
+        "tx_duration_us":        { "type": "integer" },
+        "rx_bitrate":            { "$ref": "#/$defs/bitrate" },
+        "rx_duration_us":        { "type": "integer" },
+        "ack_signal_dbm":        { "type": "integer" },
+        "ack_signal_avg_dbm":    { "type": "integer" },
+        "airtime_weight":        { "type": "integer" },
+        "expected_throughput_mbps": { "type": "number" },
+        "tid_stats":             { "type": "array", "items": { "$ref": "#/$defs/tid_stat" } },
+        "bss_param":             { "$ref": "#/$defs/bss_param" },
+        "connected_time":        { "type": "integer", "description": "seconds" },
+        "assoc_at_ms":           { "type": "integer", "description": "CLOCK_REALTIME ms" }
+      }
+    },
+    "station": {
+      "type": "object",
+      "allOf": [{ "$ref": "#/$defs/sta_stats" }],
+      "properties": {
+        "addr":                    { "type": "string", "pattern": "^([0-9a-f]{2}:){5}[0-9a-f]{2}$" },
+        "dev":                     { "type": "string" },
+        "mesh_llid":               { "type": "integer" },
+        "mesh_plid":               { "type": "integer" },
+        "mesh_plink":              { "type": "string" },
+        "mesh_airtime_link_metric": { "type": "integer" },
+        "mesh_connected_to_gate":  { "type": "boolean" },
+        "mesh_connected_to_as":    { "type": "boolean" },
+        "mesh_local_ps_mode":      { "type": "string" },
+        "mesh_peer_ps_mode":       { "type": "string" },
+        "mesh_nonpeer_ps_mode":    { "type": "string" },
+        "authorized":              { "type": "boolean" },
+        "authenticated":           { "type": "boolean" },
+        "associated":              { "type": "boolean" },
+        "short_preamble":          { "type": "boolean" },
+        "wmm":                     { "type": "boolean" },
+        "mfp":                     { "type": "boolean" },
+        "tdls_peer":               { "type": "boolean" },
+        "mlo_links": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "allOf": [{ "$ref": "#/$defs/sta_stats" }],
+            "properties": {
+              "link_id": { "type": "integer" },
+              "addr":    { "type": "string" }
+            },
+            "required": ["link_id"]
+          }
+        }
+      },
+      "required": ["addr", "dev"]
+    }
+  }
+}

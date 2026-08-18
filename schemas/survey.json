@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "iw survey",
+  "description": "Output of 'iw dev <name> survey dump' — per-channel survey data",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "dev":                   { "type": "string" },
+      "frequency":             { "type": "integer", "description": "MHz" },
+      "in_use":                { "type": "boolean", "description": "channel currently in use" },
+      "noise_dbm":             { "type": "integer" },
+      "channel_active_time":   { "type": "integer", "description": "ms" },
+      "channel_busy_time":     { "type": "integer", "description": "ms" },
+      "channel_ext_busy_time": { "type": "integer", "description": "ms" },
+      "channel_rx_time":       { "type": "integer", "description": "ms" },
+      "channel_bss_rx_time":   { "type": "integer", "description": "ms" },
+      "channel_tx_time":       { "type": "integer", "description": "ms" }
+    },
+    "required": ["dev"]
+  }
+}

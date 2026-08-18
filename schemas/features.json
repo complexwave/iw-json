@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "iw features",
+  "description": "Output of 'iw features' — nl80211 protocol features",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "nl80211_features":  { "type": "integer", "description": "protocol feature flags bitmask" },
+      "split_wiphy_dump":  { "type": "boolean" }
+    },
+    "required": ["nl80211_features"]
+  }
+}

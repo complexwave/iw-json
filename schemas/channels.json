@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "iw channels",
+  "description": "Output of 'iw phy <phy> channels' — available channels per band. Split-dump may emit a band more than once; group by 'band'.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "band": { "type": "integer", "description": "1-based band index" },
+      "frequencies": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "frequency":        { "type": "integer", "description": "MHz" },
+            "channel":          { "type": "integer" },
+            "disabled":         { "type": "boolean" },
+            "max_tx_power_dbm": { "type": "number" },
+            "no_ir":            { "type": "boolean" },
+            "passive_scan":     { "type": "boolean" },
+            "no_ibss":          { "type": "boolean" },
+            "radar":            { "type": "boolean" },
+            "widths":           { "type": "array", "items": { "type": "string" } },
+            "dfs_state":        { "type": "string", "enum": ["usable", "available", "unavailable", "unknown"] },
+            "dfs_time_sec":     { "type": "integer" },
+            "dfs_cac_time_ms":  { "type": "integer" },
+            "cac_ongoing":      { "type": "boolean" }
+          },
+          "required": ["frequency", "channel"]
+        }
+      }
+    },
+    "required": ["band", "frequencies"]
+  }
+}
